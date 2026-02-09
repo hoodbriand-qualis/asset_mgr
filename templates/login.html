@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block content %}
+<section class="card">
+  <h2>Login</h2>
+  <form method="post">
+    <label>Employee ID <input type="text" name="employee_id" value="{{ request.args.get('employee_id', '') }}" required></label>
+    <label>PIN (optional for users without PIN) <input type="password" name="pin"></label>
+    <button type="submit">Sign In</button>
+  </form>
+  <p>Default manager: MGR001 / 1234<br>Default user: USR001 / 1234</p>
+</section>
+{% endblock %}
