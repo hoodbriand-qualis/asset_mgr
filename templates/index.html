@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% block content %}
+<section class="toolbar">
+  <form method="get" class="inline-form">
+    <input type="text" name="q" value="{{ search }}" placeholder="Search id, part, description, assignee" />
+    <input type="text" name="location" value="{{ location }}" placeholder="Location" />
+    <select name="status">
+      <option value="">All statuses</option>
+      <option value="available" {% if status == 'available' %}selected{% endif %}>available</option>
+      <option value="reserved" {% if status == 'reserved' %}selected{% endif %}>reserved</option>
+      <option value="divested" {% if status == 'divested' %}selected{% endif %}>divested</option>
+    </select>
+    <button type="submit">Filter</button>
+  </form>
+  <form method="get" action="{{ url_for('scan_lookup') }}" class="inline-form">
+    <input type="text" name="code" placeholder="Scan barcode/QR code value" />
+    <button type="submit">Open Record</button>
+  </form>
+  {% if user and user.role == 'manager' %}
+    <p><a href="{{ url_for('create_asset') }}">+ Add Asset</a> | <a href="{{ url_for('create_user') }}">+ Add User</a></p>
+  {% endif %}
+</section>
+
+<table>
+  <thead>
+    <tr>
+      <th>Asset ID</th><th>Part #</th><th>Description</th><th>Owner</th><th>Status</th><th>Location</th><th>Assigned</th><th>Calibration</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for a in assets %}
+      <tr>
+        <td><a href="{{ url_for('asset_detail', asset_id=a.asset_id) }}">{{ a.asset_id }}</a></td>
+        <td>{{ a.part_number }}</td>
+        <td>{{ a.description }}</td>
+        <td>{{ a.ownership }}</td>
+        <td>{{ a.status }}</td>
+        <td>{{ a.location or '-' }}</td>
+        <td>{{ a.assigned_to or '-' }}</td>
+        <td>{{ a.calibration_date or '-' }}</td>
+      </tr>
+    {% else %}
+      <tr><td colspan="8">No assets found.</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block content %}
+<section class="card">
+  <h2>Add User</h2>
+  <form method="post" class="grid-form">
+    <label>Employee ID <input type="text" name="employee_id" required></label>
+    <label>Name <input type="text" name="name" required></label>
+    <label>Role
+      <select name="role">
+        <option value="user">user</option>
+        <option value="manager">manager</option>
+      </select>
+    </label>
+    <label>PIN (optional) <input type="text" name="pin"></label>
+    <button type="submit">Create user</button>
+  </form>
+  <p>Tip: user QR login format is generated at <code>/users/&lt;employee_id&gt;/qrcode.png</code></p>
+</section>
+{% endblock %}
